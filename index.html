@@ -5403,43 +5403,98 @@
       });
     </script> -->
     <script>
-      const source = new EventSource(
-        "https://secure.jointherealworld.com/api/purchases"
-      );
-      source.addEventListener("purchase", (purchaseEvent) => {
-        const data = JSON.parse(purchaseEvent.data);
-        if (data.name && data.countryName)
-          addPurchasePopup(data.name, data.countryName);
-      });
-      function addPurchasePopup(name, country) {
+      var listCountries = [
+        "South Africa",
+        "USA",
+        "Germany",
+        "France",
+        "Italy",
+        "United States",
+        "Australia",
+        "United Kingdom",
+        "Canada",
+        "Argentina",
+        "Saudi Arabia",
+        "Mexico",
+        "India",
+        "Poland",
+        "Venezuela",
+        "New Zeeland",
+        "Sweden",
+        "Netherland",
+        "Philippine",
+        "Italy",
+        "Russia",
+        "China",
+        "Japan",
+        "Greece",
+        "Cuba",
+        "France",
+        "Portugal",
+        "Austria",
+        "Greece",
+        "Panama",
+        "Iceland",
+        "Finland",
+        "Ukraine",
+        "Switzerland",
+        "Belgium",
+        "Israel",
+        "Cyprus",
+        "Brazil",
+        "Mexico",
+        "South Korean",
+        "Norway",
+        "Portugal",
+        "Romania",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+      ];
+
+      var listPlans = [
+        "$15,467.66",
+        "$10,220.12",
+        "$851,120.05",
+        "$340,100.33",
+        "$12,400.15",
+        "$7,000.23",
+        "$9,014.33",
+        "$26,450.23",
+        "$79,300.45",
+        "$29,500.23",
+      ];
+      var transarray = [
+        "just <b>invested</b>",
+        "has <b>withdrawn</b>",
+        "is <b>trading with</b>",
+      ];
+
+      interval = Math.floor(Math.random() * (20000 - 4000 + 1) + 4000);
+      var run = setInterval(request, interval);
+
+      function request() {
+        clearInterval(run);
+        interval = Math.floor(Math.random() * (20000 - 4000 + 1) + 4000);
+        var country =
+          listCountries[Math.floor(Math.random() * listCountries.length)];
+        var transtype =
+          transarray[Math.floor(Math.random() * transarray.length)];
+        var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
         var div = document.createElement("div");
         div.innerHTML = `<div class='purchase-popup'>
-    <img src="https://uploads-ssl.webflow.com/64680f89ffc502a63b8e9d79/647ba85d856b0f60f62b1580_trwlogo.webp" loading="lazy" alt="The Real World Logo">
-    <p><strong>${abbreviateName(name)}</strong> ${
-          country && country.trim().length > 0
-            ? "from <strong>" + country.trim() + "</strong>"
-            : ""
-        } has purchased The Real World and is escaping The Matrix.</p>
+    <img src="https://uploads-ssl.webflow.com/64680f89ffc502a63b8e9d79/647ba85d856b0f60f62b1580_trwlogo.webp" loading="eager" alt="The Real World Logo">
+    <p><strong>Someone</strong> ${
+      country && country.trim().length > 0
+        ? "from <strong>" + country.trim() + "</strong>"
+        : ""
+    } <strong>${transtype}</strong> ${plan}</p>
     </div>`;
         var screenW = document.documentElement.clientWidth;
         var position = screenW < 767 ? "top-left" : "bottom-left";
         alertify.set("notifier", "position", position);
         alertify.message(div);
-      }
-      function abbreviateName(name) {
-        if (!name || name.trim().length <= 0) return "Anon";
-        var nameSplit = name.trim().split(" ");
-        if (
-          nameSplit.length > 1 &&
-          nameSplit[nameSplit.length - 1].length > 0
-        ) {
-          name =
-            nameSplit[0] +
-            " " +
-            nameSplit[nameSplit.length - 1].charAt(0).toUpperCase() +
-            ".";
-        }
-        return name.trim();
+        run = setInterval(request, interval);
       }
     </script>
 
